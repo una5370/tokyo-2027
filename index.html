@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>東京・湯澤滑雪行</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#f3f6f9; --paper:#ffffff; --ink:#18263a; --muted:#5d6b7d; --line:#d9e1ea;
+  --snow:#e8eff6; --accent:#2c5d8f; --accent-soft:#e2ecf6;
+  --meal:#c2571a; --meal-soft:#fbeee4; --ok:#2f7d4f; --ok-soft:#e3f2e8;
+  --font-body:"Noto Sans TC",system-ui,-apple-system,"Microsoft JhengHei",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0f1720; --paper:#16212d; --ink:#e6edf4; --muted:#9aa9b9; --line:#2a3847;
+  --snow:#1b2836; --accent:#82b2e3; --accent-soft:#1d3044;
+  --meal:#f0975c; --meal-soft:#33241a; --ok:#7fcf9c; --ok-soft:#1a3326; color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6}
+img{max-width:100%}
+[hidden]{display:none!important}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{text-wrap:balance;margin:0}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+header{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+h1{font-size:clamp(28px,6vw,40px);font-weight:900;line-height:1.2}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:var(--snow);color:var(--ink);font-size:13px}
+section.block{display:flex;flex-direction:column;gap:12px}
+h2{font-size:18px;font-weight:700}
+.hotels{display:grid;gap:8px}
+.hotel{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 14px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.hotel .dates{color:var(--muted);font-size:13px}
+.hotel .price{grid-row:1/3;grid-column:2;align-self:center;text-align:right;font-size:14px}
+.total{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:14px;color:var(--muted);padding:0 4px}
+.total strong{color:var(--ink)}
+.howto{background:var(--meal-soft);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.howto h2{color:var(--meal)}
+.howto ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:2px}
+.progress{display:flex;align-items:center;gap:10px;font-size:14px}
+.bar{flex:1;height:8px;background:var(--paper);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--meal);width:0}
+.sync{font-size:12px;color:var(--muted)}
+nav.days{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav.days a{flex:none;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:13px;text-align:center;line-height:1.3}
+nav.days a small{display:block;color:var(--muted);font-size:11px}
+nav.days a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.day{display:grid;grid-template-columns:64px 1fr;gap:0 14px;scroll-margin-top:64px}
+.rail{display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:2px}
+.rail .d{font-family:var(--font-mono);font-size:24px;font-weight:600;line-height:1}
+.rail .m{font-size:12px;color:var(--muted)}
+.rail .w{font-size:12px;color:var(--accent);font-weight:700}
+.dayhead{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+.dayhead h3{font-size:20px;font-weight:900}
+.dayhead .stay{font-size:13px;color:var(--muted)}
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;border-left:2px solid var(--line);min-width:0}
+.tl>li{position:relative;padding:6px 0 6px 16px;display:grid;grid-template-columns:76px 1fr;gap:10px;min-width:0}
+.tl>li::before{content:"";position:absolute;left:-6px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.tl .t{font-family:var(--font-mono);font-size:13px;color:var(--accent);padding-top:2px}
+.tl .what{min-width:0}
+.tl .what p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.tag{display:inline-block;font-size:11.5px;padding:0 7px;border-radius:5px;background:var(--accent-soft);color:var(--accent);font-weight:500;margin-right:4px;vertical-align:1px}
+.tl>li.fixed-meal::before{border-color:var(--muted)}
+.tl>li.slot::before{border-color:var(--meal);background:var(--meal)}
+.tl>li.slot .t{color:var(--meal)}
+.ticket{border:1.5px dashed var(--meal);border-radius:10px;padding:10px 12px;background:var(--paper);display:flex;flex-direction:column;gap:6px;min-width:0}
+.ticket.claimed{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.ticket .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ticket .label{font-weight:700}
+.status{font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;background:var(--meal-soft);color:var(--meal);white-space:nowrap}
+.claimed .status{background:var(--paper);color:var(--ok)}
+.area{font-size:13.5px}
+.area span{color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.result{font-size:14px;overflow-wrap:anywhere}
+.result a{color:var(--accent)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-size:13px;border-radius:7px;padding:5px 12px;cursor:pointer;border:1px solid var(--meal);background:var(--meal);color:var(--paper);font-weight:700}
+.copied{font-size:12.5px;color:var(--ok)}
+button.ghost{background:transparent;color:var(--muted);border-color:var(--line);font-weight:500}
+button:disabled{opacity:.5;cursor:default}
+form.claim{display:grid;gap:8px;margin-top:4px}
+form.claim label{display:flex;flex-direction:column;gap:2px;font-size:12.5px;color:var(--muted)}
+form.claim input{font:inherit;font-size:16px;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink);min-width:0}
+input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.err{color:var(--meal);font-size:12.5px;margin:0}
+.syncrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.notes{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.notes ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+footer{font-size:12px;color:var(--muted)}
+@media (max-width:520px){
+  .day{grid-template-columns:1fr}
+  .rail{flex-direction:row;align-items:baseline;gap:8px;margin-bottom:4px}
+  .tl>li{grid-template-columns:1fr;gap:0}
+  .hotel{grid-template-columns:1fr}.hotel .price{grid-row:auto;grid-column:auto;text-align:left}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">TOKYO × ECHIGO-YUZAWA · 2027 WINTER</div>
+    <h1>東京・越後湯澤滑雪行</h1>
+    <div class="meta">
+      <span class="chip mono">2027/1/19 – 1/25</span>
+      <span class="chip">6 天 6 夜 · 6 人</span>
+      <span class="chip">上野 → 越後湯澤 → 日暮里</span>
+    </div>
+  </header>
+
+  <section class="block" aria-labelledby="h-hotel">
+    <h2 id="h-hotel">住宿（皆已確認）</h2>
+    <div class="hotels">
+      <div class="hotel"><b>上野</b><span class="dates mono">1/19–1/20 · 1 晚</span></div>
+      <div class="hotel"><b>越後湯澤</b><span class="dates mono">1/20–1/22 · 2 晚</span></div>
+      <div class="hotel"><b>日暮里</b><span class="dates mono">1/22–1/25 · 3 晚</span></div>
+    </div>
+    <div class="total"><span>飯店名稱與費用請看群組訊息</span></div>
+  </section>
+
+  <section class="howto" aria-labelledby="h-how">
+    <h2 id="h-how">餐廳認領：一人找一間</h2>
+    <ol id="howto-steps">
+      <li>往下找到<b>橘色虛線</b>的用餐格，看「建議區域」。</li>
+      <li>按「複製認領訊息」，貼到群組，團長會把你的名字更新到這頁。</li>
+      <li>找到餐廳後，把店名和 Google Maps 連結貼到群組。6 人用餐建議先訂位。</li>
+    </ol>
+    <div class="progress"><span>已認領 <b class="mono" id="cnt">0</b> / <span class="mono" id="tot">0</span></span><div class="bar"><i id="barfill"></i></div></div>
+    <div class="syncrow"><span class="sync" id="updated"></span><button type="button" class="ghost" id="reload" hidden>重新整理</button></div>
+    <form id="keyform" class="claim" hidden>
+      <label>輸入群組通關密語（在 LINE 群組公告）<input id="keyinput" autocomplete="off" maxlength="100"></label>
+      <p class="err" id="keyerr" hidden></p>
+      <div class="actions"><button type="submit">進入</button></div>
+    </form>
+  </section>
+
+  <nav class="days" id="daynav" aria-label="跳到某一天"></nav>
+  <div id="days" style="display:flex;flex-direction:column;gap:32px"></div>
+
+  <section class="notes" aria-labelledby="h-notes">
+    <h2 id="h-notes" style="margin-bottom:8px">出發前待辦</h2>
+    <ul>
+      <li><b>Skyliner 車票</b>：去程成田→京成上野、回程日暮里→成田，都是全車對號座，建議先線上買好。</li>
+      <li><b>上越新幹線</b>：1/20 去、1/22 回都在雪季尖峰，6 人建議劃指定席，大行李座位要另外預約。</li>
+      <li><b>1/22 行李寄放</b>：確認青達雪具店能否代放；不行就用越後湯澤站置物櫃（大型櫃可能不夠 6 人份）。</li>
+      <li><b>岩原、石打丸山交通</b>：確認飯店或雪具店是否接送，不然查雪場接駁巴士時刻。</li>
+      <li><b>屋形船</b>：1/23 是週六晚上，熱門，最好一個月前訂。</li>
+      <li><b>富士回遊（1/24）</b>：新宿⇄河口湖全車指定席，週末很快賣完，開賣就訂；或改訂包車。</li>
+      <li><b>1/24 雨備</b>：出發前 2–3 天看河口湖天氣，陰雨就改去鎌倉＋江之島，富士回遊記得退票。</li>
+    </ul>
+  </section>
+  <footer>時間為預估，交通時刻請以出發前查詢為準。</footer>
+</div>
+
+<script>
+/* ===================== 團長設定區 =====================
+   【方式 A：大家直接在網頁填】
+   把 Google Apps Script 部署出來的網址貼在 API_URL 引號裡
+   （長得像 https://script.google.com/macros/s/xxxx/exec）。
+   填了之後，下面的 CLAIMS 就不會用到。
+
+   【方式 B：團長手動更新】
+   API_URL 留空，有人認領就在 CLAIMS 對應格子填資料再 push。
+   name: 負責人  restaurant: 店名  link: Google Maps 網址  note: 備註
+====================================================== */
+const API_URL = "https://script.google.com/macros/s/AKfycbzoanpuT1zo_lTxxsf6ewJduuLyGOAGtdj9YYj4TT22TG9Sfn_LpsOOWK3gwSX2KyuTiw/exec";
+const UPDATED = "2026/11/12";
+const CLAIMS = {
+  "d1-lunch":   {},
+  "d1-dinner":  {},
+  "d2-lunch":   {},
+  "d2-dinner":  {},
+  "d3-dinner":  {},
+  "yakatabune": {},
+  "d6-lunch":   {},
+  "d6-dinner":  {},
+  "d7-lunch":   {}
+  // 範例： "d1-lunch": { name: "小明", restaurant: "某某燒肉", link: "https://maps.app.goo.gl/xxxx", note: "已訂 12:00" },
+};
+/* ==================== 以下不用改 ==================== */
+
+const DAYS = [
+ {id:"d1", m:"1月", d:"19", w:"二", title:"抵達・上野", stay:"住 上野", items:[
+  {t:"07:00", b:"抵達成田機場", p:"入境、領行李約 1 小時"},
+  {t:"08:30", b:"京成 Skyliner → 京成上野", p:"約 45 分鐘直達，避開通勤尖峰轉乘", tag:"交通"},
+  {t:"09:30", b:"到飯店寄放行李", p:"京成上野站步行即到"},
+  {slot:"d1-lunch", t:"11:30", label:"1/19 午餐", area:"上野・阿美橫丁、御徒町", hint:"剛下紅眼班機，選走路可到的就好"},
+  {t:"午後", b:"自由活動", p:"上野公園、阿美橫丁；體力好可搭銀座線到淺草（約 5 分）。累了就回飯店休息"},
+  {t:"15:00", b:"飯店正式 check-in", p:"以飯店公告時間為準"},
+  {slot:"d1-dinner", t:"18:30", label:"1/19 晚餐", area:"上野・御徒町", hint:"燒肉、居酒屋選擇多，6 人建議訂位"}
+ ]},
+ {id:"d2", m:"1月", d:"20", w:"三", title:"前往越後湯澤", stay:"住 越後湯澤", items:[
+  {t:"上午", b:"退房，行李先寄在飯店", p:"上午在上野周邊自由逛，秋葉原 JR 2 站"},
+  {slot:"d2-lunch", t:"12:00", label:"1/20 午餐", area:"上野車站周邊・秋葉原", hint:"吃完要回飯店拿行李，別離上野太遠"},
+  {t:"14:30", b:"回飯店取行李"},
+  {t:"15:00–16:00", b:"上越新幹線 上野 → 越後湯澤", p:"約 70–80 分鐘。一般電車要 3 小時以上，趕不上 18:30 租雪具", tag:"交通"},
+  {t:"17:30", b:"抵達越後湯澤"},
+  {slot:"d2-dinner", t:"17:30", label:"1/20 晚餐", area:"越後湯澤站內・站前", hint:"18:30 要租雪具，可以 17:30 先在站內吃；或租完到飯店附近吃。飯店附近店少，找之前先確認營業時間"},
+  {t:"18:30", b:"青達雪具店 租雪具", p:"租完由店家載到飯店", tag:"滑雪"}
+ ]},
+ {id:"d3", m:"1月", d:"21", w:"四", title:"岩原滑雪場 一整天", stay:"住 越後湯澤", items:[
+  {t:"早上", b:"早餐後出發到岩原滑雪場", p:"交通方式待確認：接駁巴士或計程車", tag:"滑雪"},
+  {t:"整天", b:"岩原滑雪場"},
+  {fixed:true, t:"12:00", b:"午餐：雪場餐廳", p:"現場決定，不用認領"},
+  {t:"16:00", b:"收板回飯店，泡湯休息"},
+  {slot:"d3-dinner", t:"18:30", label:"1/21 晚餐", area:"越後湯澤溫泉街・站前", hint:"新潟米、蕎麥麵、日本酒；滑完雪會很餓"}
+ ]},
+ {id:"d4", m:"1月", d:"22", w:"五", title:"石打丸山 → 回東京", stay:"住 日暮里", items:[
+  {t:"早上", b:"退房，大行李寄越後湯澤站或青達雪具店"},
+  {t:"上午", b:"前往石打丸山滑雪場", p:"JR 上越線 越後湯澤 → 石打約 10 分，或雪場接駁巴士", tag:"交通"},
+  {fixed:true, t:"12:00", b:"午餐：雪場餐廳", p:"現場決定，不用認領"},
+  {t:"下午", b:"歸還雪具，取回行李", tag:"滑雪"},
+  {fixed:true, t:"傍晚", b:"晚餐：越後湯澤站買飯糰，上車吃", p:"已安排，不用認領"},
+  {t:"傍晚", b:"上越新幹線 越後湯澤 → 上野，轉 JR 到日暮里", p:"新幹線約 75 分；上野到日暮里 JR 2 站", tag:"交通"},
+  {t:"晚上", b:"日暮里飯店 check-in"}
+ ]},
+ {id:"d5", m:"1月", d:"23", w:"六", title:"自由行＋晚上屋形船", stay:"住 日暮里", items:[
+  {t:"白天", b:"自由行，各自安排", p:"想去哪就去哪，午餐也各自解決。想拜招財貓的可參考：豪德寺（世田谷）、小網神社（人形町，金運）、今戶神社（淺草附近）"},
+  {t:"17:30", b:"全員到船家集合點報到", p:"地點依訂到的船家而定，會再公布；通常要提早 15–30 分到"},
+  {slot:"yakatabune", t:"18:30", label:"1/23 晚餐：屋形船", area:"淺草橋・兩國・品川・月島一帶的船家", hint:"比較船家、訂 1/23 晚上的位子。通常約 2.5 小時，6 人可訂共乘船。週六熱門，最好一個月前訂"}
+ ]},
+ {id:"d6", m:"1月", d:"24", w:"日", title:"富士山・河口湖一日遊", stay:"住 日暮里", items:[
+  {t:"前 2–3 天", b:"看天氣預報決定要不要去", p:"河口湖一帶陰天就看不到富士山，改去鎌倉＋江之島（約 1 小時）"},
+  {t:"06:50", b:"日暮里 → 新宿", p:"JR 山手線約 25 分", tag:"交通"},
+  {t:"07:30", b:"新宿 → 河口湖", p:"特急「富士回遊」約 2 小時，全車指定席，週末要先訂；6 人也可以考慮包車", tag:"交通"},
+  {t:"09:30", b:"新倉山淺間公園（五重塔＋富士山）", p:"河口湖線 下吉田站下車，爬約 400 階樓梯"},
+  {slot:"d6-lunch", t:"12:00", label:"1/24 午餐", area:"河口湖站周邊", hint:"山梨名物「餺飥」(ほうとう) 烏龍麵鍋，冬天吃很暖"},
+  {t:"午後", b:"河口湖畔：大石公園、富士山全景纜車", p:"湖北岸的大石公園看富士山倒影角度最好"},
+  {t:"16:30", b:"河口湖 → 新宿", p:"建議搭電車回。週日傍晚高速公路回東京常塞車，巴士可能晚很久", tag:"交通"},
+  {slot:"d6-dinner", t:"19:00", label:"1/24 晚餐", area:"新宿站周邊", hint:"玩一整天會累，選新宿站附近、吃完直接搭山手線回日暮里"}
+ ]},
+ {id:"d7", m:"1月", d:"25", w:"一", title:"回台灣", stay:"16:35 起飛", items:[
+  {t:"上午", b:"退房，行李寄飯店；谷中銀座散步", p:"谷中是有名的貓街，商店街有很多貓咪主題小店和街貓", tag:"貓"},
+  {slot:"d7-lunch", t:"11:30", label:"1/25 午餐", area:"日暮里・谷中銀座", hint:"簡單快速，12:45 前要吃完"},
+  {t:"13:00", b:"取行李，日暮里站搭 Skyliner → 成田機場", p:"約 36–41 分鐘", tag:"交通"},
+  {t:"14:00", b:"抵達機場報到", p:"國際線建議起飛前 2.5 小時到"},
+  {t:"16:35", b:"起飛 ✈", tag:"航班"}
+ ]}
+];
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : null; } catch { return null; } };
+const slots = []; DAYS.forEach(d => d.items.forEach(i => i.slot && slots.push(i)));
+const slotIds = slots.map(i => i.slot);
+const LIVE = API_URL.trim() !== "";
+let claims = LIVE ? {} : CLAIMS, editing = null;
+const syncEl = document.getElementById("updated");
+
+if (LIVE) document.getElementById("howto-steps").innerHTML = `
+  <li>往下找到<b>橘色虛線</b>的用餐格，看「建議區域」。</li>
+  <li>按「我來找」，填上你的名字就算認領，大家打開網頁都看得到。</li>
+  <li>找到餐廳後按「更新」補上店名和 Google Maps 連結。6 人用餐建議先訂位，訂好寫在備註。</li>`;
+
+document.getElementById("daynav").innerHTML = DAYS.map(d => `<a href="#${d.id}">1/${d.d}<small>週${d.w}</small></a>`).join("");
+
+function ticket(i){
+  return `<div class="ticket" data-slot="${i.slot}">
+    <div class="top"><span class="label">${esc(i.label)}</span><span class="status">待認領</span></div>
+    <div class="area"><span>建議區域：</span>${esc(i.area)}</div>
+    <p class="hint">${esc(i.hint)}</p><div class="body"></div></div>`;
+}
+const slotInfo = id => slots.find(i => i.slot === id);
+
+function renderSlot(id){
+  const box = document.querySelector(`.ticket[data-slot="${id}"]`); if (!box) return;
+  const c = claims[id] || {}, has = !!c.name, url = safeUrl(c.link), body = box.querySelector(".body");
+  box.classList.toggle("claimed", has);
+  box.querySelector(".status").textContent = has ? (c.restaurant ? "已找到" : `${c.name} 認領中`) : "待認領";
+  if (editing === id){
+    body.innerHTML = `<form class="claim">
+      <label>你的名字<input id="f-${id}-name" required maxlength="20" value="${esc(c.name)}"></label>
+      <label>餐廳名稱（找到再填）<input id="f-${id}-rest" maxlength="60" value="${esc(c.restaurant)}"></label>
+      <label>Google Maps / Tabelog 連結<input id="f-${id}-link" type="url" maxlength="500" value="${esc(c.link)}" placeholder="https://"></label>
+      <label>備註（訂位狀況、預算）<input id="f-${id}-note" maxlength="100" value="${esc(c.note)}"></label>
+      <p class="err" hidden></p>
+      <div class="actions"><button type="submit">儲存</button><button type="button" class="ghost" data-act="cancel">取消</button>${has ? `<button type="button" class="ghost" data-act="release">放棄認領</button>` : ""}</div>
+    </form>`;
+    const f = body.querySelector("form");
+    f.addEventListener("submit", e => { e.preventDefault(); save(id, f); });
+    f.querySelector('[data-act="cancel"]').onclick = () => { editing = null; renderSlot(id); };
+    const rel = f.querySelector('[data-act="release"]'); if (rel) rel.onclick = () => release(id, f);
+    f.querySelector("input").focus();
+    return;
+  }
+  let html = "";
+  if (has){
+    html = `<div class="result">負責人：<b>${esc(c.name)}</b>`;
+    if (c.restaurant) html += `<br>餐廳：${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(c.restaurant)}</a>` : esc(c.restaurant)}`;
+    else if (url) html += `<br><a href="${esc(url)}" target="_blank" rel="noopener">餐廳連結</a>`;
+    if (c.note) html += `<br>備註：${esc(c.note)}`;
+    html += `</div>`;
+  }
+  if (LIVE && authed) html += `<div class="actions"><button type="button" class="${has ? "ghost" : ""}" data-edit="${id}">${has ? "更新" : "我來找"}</button></div>`;
+  else if (!has){ const i = slotInfo(id); html += `<div class="actions"><button type="button" data-copy="${esc(`我認領「${i.label}」（建議區域：${i.area}）`)}">複製認領訊息</button><span class="copied" hidden></span></div>`; }
+  body.innerHTML = html;
+}
+function renderCount(){
+  const n = slotIds.filter(s => claims[s]?.name).length;
+  document.getElementById("cnt").textContent = n;
+  document.getElementById("tot").textContent = slotIds.length;
+  document.getElementById("barfill").style.width = (n / slotIds.length * 100) + "%";
+}
+function renderAll(){ slotIds.forEach(id => { if (id !== editing) renderSlot(id); }); renderCount(); }
+
+const hhmm = () => new Date().toLocaleTimeString("zh-TW", {hour:"2-digit", minute:"2-digit", hour12:false});
+// 通關密語只存在這台裝置的瀏覽器，不寫在原始碼裡；後端 (Google) 會檢查
+let KEY = ""; try { KEY = localStorage.getItem("trip-key") || ""; } catch {}
+let authed = false;
+const keyform = document.getElementById("keyform"), keyerr = document.getElementById("keyerr");
+function askKey(msg){
+  authed = false; claims = {}; editing = null;
+  keyform.hidden = false; document.getElementById("reload").hidden = true;
+  keyerr.textContent = msg || ""; keyerr.hidden = !msg;
+  syncEl.textContent = "輸入通關密語後就能看到並認領餐廳。";
+  renderAll();
+}
+function badKey(){ KEY = ""; try { localStorage.removeItem("trip-key"); } catch {} askKey("密語不對，再確認一次群組公告"); }
+keyform.addEventListener("submit", async e => {
+  e.preventDefault();
+  KEY = document.getElementById("keyinput").value.trim(); if (!KEY) return;
+  keyform.querySelector("button").disabled = true;
+  await load();
+  keyform.querySelector("button").disabled = false;
+});
+
+async function load(){
+  if (!KEY) return askKey();
+  try {
+    const j = await post({action:"list"});
+    if (j.error === "bad_key") return badKey();
+    if (!j.ok) throw 0;
+    claims = j.claims || {}; authed = true;
+    try { localStorage.setItem("trip-key", KEY); } catch {}
+    keyform.hidden = true; document.getElementById("reload").hidden = false;
+    syncEl.textContent = `已同步 ${hhmm()}，每分鐘自動更新`;
+  } catch { syncEl.textContent = "讀不到認領資料，請稍後按重新整理。"; }
+  renderAll();
+}
+async function post(payload){
+  const r = await fetch(API_URL, {method:"POST", body: JSON.stringify({...payload, key: KEY})}); // text/plain，避免跨網域預檢
+  return r.json();
+}
+function busy(f, on){ f.querySelectorAll("button,input").forEach(x => x.disabled = on); }
+function showErr(f, msg){ const e = f.querySelector(".err"); e.textContent = msg; e.hidden = false; }
+
+async function save(id, f){
+  const v = k => f.querySelector(`#f-${id}-${k}`).value.trim();
+  const data = {action:"claim", slot:id, expected: claims[id]?.name || "", name:v("name"), restaurant:v("rest"), link:v("link"), note:v("note")};
+  if (!data.name) return showErr(f, "請先填名字");
+  if (data.link && !safeUrl(data.link)) return showErr(f, "連結要以 https:// 開頭");
+  busy(f, true);
+  try {
+    const j = await post(data);
+    if (j.error === "bad_key") return badKey();
+    if (j.claims) claims = j.claims;
+    if (j.ok){ editing = null; renderSlot(id); renderAll(); return; }
+    busy(f, false);
+    showErr(f, j.error === "taken" ? `剛剛被 ${j.name} 認領了，換一格吧` : "沒存成功，請再試一次");
+  } catch { busy(f, false); showErr(f, "連不上，請檢查網路後再試一次"); }
+}
+async function release(id, f){
+  busy(f, true);
+  try {
+    const j = await post({action:"release", slot:id, expected: claims[id]?.name || ""});
+    if (j.error === "bad_key") return badKey();
+    if (j.claims) claims = j.claims;
+    if (j.ok){ editing = null; renderSlot(id); renderAll(); return; }
+    busy(f, false); showErr(f, j.error === "taken" ? `這格已經被 ${j.name} 改過了，重新整理看看` : "沒成功，請再試一次");
+  } catch { busy(f, false); showErr(f, "連不上，請檢查網路後再試一次"); }
+}
+
+document.getElementById("days").innerHTML = DAYS.map(d => `
+ <article class="day" id="${d.id}">
+  <div class="rail">${d.special ? `<span class="w">${d.m}</span><span class="m">${d.d}</span><span class="w">${d.w}</span>` : `<span class="m">${d.m}</span><span class="d">${d.d}</span><span class="w">週${d.w}</span>`}</div>
+  <div style="min-width:0">
+   <div class="dayhead"><h3>${esc(d.title)}</h3><span class="stay">${esc(d.stay)}</span></div>
+   <ol class="tl">${d.items.map(i => i.slot
+     ? `<li class="slot"><span class="t">${esc(i.t)}</span>${ticket(i)}</li>`
+     : `<li class="${i.fixed ? "fixed-meal" : ""}"><span class="t">${esc(i.t)}</span><div class="what">${i.tag ? `<span class="tag">${esc(i.tag)}</span>` : ""}<b>${esc(i.b)}</b>${i.p ? `<p>${esc(i.p)}</p>` : ""}</div></li>`).join("")}
+   </ol>
+  </div>
+ </article>`).join("");
+
+document.addEventListener("click", async e => {
+  const ed = e.target.closest("button[data-edit]");
+  if (ed){ const prev = editing; editing = ed.dataset.edit; if (prev) renderSlot(prev); renderSlot(editing); return; }
+  const b = e.target.closest("button[data-copy]"); if (!b) return;
+  const text = b.dataset.copy, tip = b.nextElementSibling;
+  try { await navigator.clipboard.writeText(text); tip.textContent = "已複製，貼到群組吧"; }
+  catch { tip.textContent = text; }
+  tip.hidden = false;
+});
+
+renderAll();
+if (LIVE){
+  syncEl.textContent = "正在讀取大家的認領…";
+  document.getElementById("reload").onclick = load;
+  load();
+  setInterval(() => { if (authed && !editing && !document.hidden) load(); }, 60000);
+  document.addEventListener("visibilitychange", () => { if (authed && !document.hidden && !editing) load(); });
+} else {
+  syncEl.textContent = `認領狀態最後更新：${UPDATED}`;
+}
+</script>
+</body>
+</html>
