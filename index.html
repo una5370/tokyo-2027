@@ -93,6 +93,17 @@ form.claim input{font:inherit;font-size:16px;padding:6px 9px;border:1px solid va
 input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .err{color:var(--meal);font-size:12.5px;margin:0}
 .syncrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.backup{margin-top:14px;border:1.5px solid var(--accent);border-radius:12px;background:var(--paper);min-width:0}
+.backup summary{cursor:pointer;padding:10px 14px;font-weight:700;color:var(--accent)}
+.backup summary small{font-weight:400;color:var(--muted);margin-left:6px}
+.bk-body{padding:0 14px 12px;display:flex;flex-direction:column;gap:10px}
+.bk-tips{margin:0;padding:10px 12px 10px 28px;background:var(--snow);border-radius:8px;font-size:13.5px;display:flex;flex-direction:column;gap:3px}
+.bk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.bk>li{display:grid;grid-template-columns:76px minmax(0,1.25fr) minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.bk .t{font-family:var(--font-mono);font-size:13px;color:var(--accent);padding-top:2px}
+.bk .what p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.bk .n{font-size:13px;background:var(--meal-soft);border-radius:8px;padding:6px 9px;align-self:start}
+.bk .n b{display:block;font-size:11px;color:var(--meal)}
 .notes{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .notes ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 footer{font-size:12px;color:var(--muted)}
@@ -100,6 +111,7 @@ footer{font-size:12px;color:var(--muted)}
   .day{grid-template-columns:1fr}
   .rail{flex-direction:row;align-items:baseline;gap:8px;margin-bottom:4px}
   .tl>li{grid-template-columns:1fr;gap:0}
+  .bk>li{grid-template-columns:1fr;gap:4px}
   .hotel{grid-template-columns:1fr}.hotel .price{grid-row:auto;grid-column:auto;text-align:left}
 }
 </style>
@@ -153,8 +165,8 @@ footer{font-size:12px;color:var(--muted)}
       <li><b>1/22 行李寄放</b>：確認青達雪具店能否代放；不行就用越後湯澤站置物櫃（大型櫃可能不夠 6 人份）。</li>
       <li><b>岩原、石打丸山交通</b>：確認飯店或雪具店是否接送，不然查雪場接駁巴士時刻。</li>
       <li><b>屋形船</b>：已訂好 1/23 18:00 船宿釣新。不吃生魚片的人請先告訴團長，要事先跟船家換餐。</li>
-      <li><b>富士山高速巴士（1/24）</b>：去程新宿 06:45–06:55 班次、回程 17:30 前後班次都要先訂，週末很快賣完。回程要決定從山中湖還是河口湖站上車。</li>
-      <li><b>1/24 雨備</b>：出發前 2–3 天看河口湖天氣，陰雨就改去鎌倉＋江之島，巴士記得取消。</li>
+      <li><b>富士山高速巴士（1/24）</b>：去程新宿 06:45–06:55 班次、回程 17:30 前後<b>河口湖站</b>上車的班次都要先訂，週末很快賣完。</li>
+      <li><b>1/24 雨備</b>：出發前 2–3 天看河口湖天氣，陰雨就改走 1/24 底下的「雨天備案：鎌倉＋江之島」，富士山巴士記得取消。</li>
     </ul>
   </section>
   <footer>時間為預估，交通時刻請以出發前查詢為準。</footer>
@@ -226,18 +238,40 @@ const DAYS = [
   {t:"20:30", b:"下船，回日暮里"}
  ]},
  {id:"d6", m:"1月", d:"24", w:"日", title:"富士山・河口湖一日遊", stay:"住 日暮里", items:[
-  {t:"前 2–3 天", b:"看天氣預報決定要不要去", p:"河口湖一帶陰天就看不到富士山，改去鎌倉＋江之島（約 1 小時）"},
-  {t:"06:00", b:"出門，日暮里 → 新宿", p:"JR 山手線約 25 分。巴士在新宿南口的「Busta 新宿」4 樓搭", tag:"交通"},
+  {t:"前 2–3 天", b:"看天氣預報決定要不要去", p:"河口湖一帶陰天就看不到富士山，改走下面的「雨天備案：鎌倉＋江之島」"},
+  {t:"05:45", b:"出門，日暮里 → 新宿", p:"JR 山手線約 25 分，下車後走到新宿南口「Busta 新宿」4 樓還要 5–10 分。6 人一起走，提早出門比較穩", tag:"交通"},
   {t:"06:45–06:55", b:"高速巴士 新宿 → 河口湖站", p:"車程約 1 小時 45 分。全車對號座，去回程都要先在網路訂好", tag:"交通"},
-  {t:"08:30–08:40", b:"抵達河口湖站，羅森便利店拍富士山", p:"站前那間「富士山在屋頂上」的羅森，順便買早餐和零食。人很多，拍照不要站到馬路上"},
-  {t:"09:15", b:"富士山全景纜車（河口湖）", p:"從車站走到湖邊約 15 分。週末要排隊，早點到比較好；山頂看富士山和整個河口湖"},
+  {t:"08:30–08:40", b:"抵達河口湖站，羅森便利店拍富士山", p:"站前那間「富士山在屋頂上」的羅森，順便買早餐和零食。人很多，拍照不要站到馬路上。當地曾架黑網擋住視線，出發前查一下最近狀況，被擋就跳過"},
+  {t:"09:15", b:"富士山全景纜車（河口湖）", p:"從車站走到湖邊約 15 分。週末要排隊，早點到比較好；山頂看富士山和整個河口湖。強風或冬季檢修會停駛，前一天查官網"},
   {fixed:true, t:"12:00", b:"午餐：河口湖湖畔，當天沿湖邊找", p:"不用認領。推薦山梨名物「餺飥」(ほうとう) 烏龍麵鍋，冬天吃很暖"},
-  {t:"13:30", b:"搭巴士到忍野八海", p:"河口湖站搭往忍野八海的巴士，約 30 分。湧泉池水非常清澈，背景就是富士山", tag:"交通"},
-  {t:"15:45", b:"有時間就去山中湖「平野之濱」看夕陽", p:"忍野八海搭巴士約 20 分。1 月日落約 16:50，冬天有機會看到太陽落在山頂的「鑽石富士」。時間不夠就跳過"},
-  {fixed:true, t:"傍晚", b:"晚餐：上車前在附近買食物，車上吃", p:"不用認領"},
-  {t:"17:30 前後", b:"高速巴士回新宿", p:"從山中湖或河口湖站上車，看最後在哪裡。週日傍晚中央道常塞車，回到新宿約 20–21 點，可能更晚", tag:"交通"},
+  {t:"13:30", b:"搭巴士到忍野八海", p:"河口湖站搭往忍野八海的巴士（富士湖號），約 30 分。湧泉池水非常清澈，背景就是富士山。冬天約一小時一班，去回程要搭哪班先查好時刻表", tag:"交通"},
+  {t:"15:30", b:"忍野八海搭巴士回河口湖站", p:"約 30 分。錯過就要多等一小時，提早到站牌", tag:"交通"},
+  {fixed:true, t:"16:00", b:"晚餐：河口湖站附近買食物，上車吃", p:"不用認領。順便買伴手禮；天氣好的話，日落（約 16:55）前後可以在站前看富士山被夕陽染色"},
+  {t:"17:30 前後", b:"高速巴士 河口湖站 → 新宿", p:"回程訂河口湖站上車。週日傍晚中央道常塞車，回到新宿約 20–21 點，可能更晚", tag:"交通"},
   {t:"20:00–21:00", b:"新宿 → 日暮里", p:"JR 山手線約 25 分", tag:"交通"}
- ]},
+ ], backup:{
+  title:"雨天備案：鎌倉＋江之島", sub:"富士山看不到時改走這條",
+  tips:[
+   "<b>前一晚決定</b>：1/23 晚上看 tenki.jp「富士山」預報或河口湖即時攝影機，雲多就改走這條",
+   "<b>記得取消富士山巴士</b>：來回兩段都要取消，先確認取消期限和手續費",
+   "<b>防寒</b>：1 月湘南白天約 10°C，海風很冷。直接穿滑雪外套，帶帽子、圍巾、手套，便利商店買暖暖包（カイロ）",
+   "<b>交通</b>：全程刷 Suica。早上到鎌倉站時先買好江之電一日券「のりおりくん」（約 ¥800），下午搭車不用再排售票"
+  ],
+  items:[
+   {t:"07:30", tag:"交通", b:"日暮里 → 鎌倉", p:"JR 山手線到東京站，轉橫須賀線直達，約 1 小時 15 分", n:"東京站從山手線走到橫須賀線地下月台約 10 分鐘，跟著「横須賀線」指標走（已算在時間內）"},
+   {t:"08:50", b:"鎌倉站西口出發，走路到錢洗弁財天", p:"約 25 分鐘，前段平路、最後一段上坡", n:"出發前先在鎌倉站買江之電一日券。穿好走的鞋，1 月早上坡道可能結霜"},
+   {t:"09:15", b:"錢洗弁財天 洗錢", p:"社務所領籃子、買蠟燭和線香（約 ¥100），到洞窟泉水邊洗錢", n:"準備幾個 ¥5、¥100 硬幣和一張 ¥1,000 紙鈔，帶手帕擦乾。據說洗過的錢要花掉才會帶財運"},
+   {t:"10:00", b:"佐助稻荷神社", p:"走路約 10 分。整排紅色鳥居、很多白狐狸像，求事業運", n:"階梯多，慢慢走"},
+   {t:"10:30", b:"經御成通走回鎌倉站", p:"約 20 分。在地商店街，麵包店、咖啡店、雜貨店", n:"店家 10 點後陸續開門，所以回程才逛"},
+   {t:"11:00–12:45", fixed:true, b:"小町通自由行，各自吃午餐", p:"從西口穿過車站到東口。地瓜霜淇淋、現炸魚板、吻仔魚丼；伴手禮推薦豐島屋鳩サブレー", n:"週日中午人很多，2–3 人一組，熱門店 11 點先去排。1 月只有燙過的吻仔魚，不吃生食也能吃。想去鶴岡八幡宮（小町通盡頭 5 分鐘）或鎌倉大佛（江之電到長谷，來回約 1 小時）的可以自己去。用 LINE 分享位置"},
+   {t:"12:45", tag:"集合", b:"鎌倉站西口「時計台廣場」集合", n:"12:30 就開始往車站走，小町通路上很擠"},
+   {t:"13:00", tag:"交通", b:"江之電 鎌倉 → 江之島", p:"約 25 分鐘，沿海岸開，坐在車上看海最舒服", n:"週日下午江之電常要排隊進站 15–30 分鐘，所以提早集合"},
+   {t:"13:45", b:"新江之島水族館", p:"約 2 小時。海豚秀、水母區、相模灣大水槽，室內可以取暖", n:"成人約 ¥2,800，官網可先買電子票。海豚秀場次出發前查"},
+   {t:"約 16:00", b:"走弁天橋上江之島", p:"約 15 分。有時間就逛參道、吃丸燒章魚仙貝和烤蠑螺，參拜江島神社", n:"16:30 前還沒走到參道就跳過。島上店家 17–18 點陸續打烊，小吃要上山時買"},
+   {t:"16:30", b:"搭江之島 Escar 電扶梯上山頂", p:"收費，約 5 分鐘，不用爬樓梯"},
+   {t:"16:40", b:"江之島展望燈塔（Sea Candle）室內展望台看夕陽", p:"日落約 16:55。室內有玻璃窗不吹風；天黑後有冬季燈飾「湘南の宝石」", n:"門票＋庭園約 ¥500–700，出發前查。附近的 LONCAFE（法式吐司）也看得到海，有位子可以坐。超過 16:30 才離開水族館的話，就直接在弁天橋或水族館前的片瀨西濱看，會吹風"},
+   {t:"17:45", tag:"交通", b:"下山 → 片瀨江之島站 → 小田急到藤澤 → JR 上野東京線直達上野 → 日暮里", p:"下山加走到車站約 30 分；小田急到藤澤約 10 分，JR 到上野約 1 小時，再坐 1 站到日暮里。約 19:30–20:00 到，晚餐在上野或日暮里吃", n:"不經過週日晚上很擠的新宿。藤澤站搭往「上野・宇都宮・高崎」方向的東海道線"}
+  ]}},
  {id:"d7", m:"1月", d:"25", w:"一", title:"回台灣", stay:"16:35 起飛", items:[
   {t:"上午", b:"退房，行李寄飯店；谷中銀座散步", p:"谷中是有名的貓街，商店街有很多貓咪主題小店和街貓", tag:"貓"},
   {slot:"d7-lunch", t:"11:30", label:"1/25 午餐", area:"日暮里・谷中銀座", hint:"簡單快速，12:45 前要吃完"},
@@ -386,9 +420,20 @@ document.getElementById("days").innerHTML = DAYS.map(d => `
    <ol class="tl">${d.items.map(i => i.slot
      ? `<li class="slot"><span class="t">${esc(i.t)}</span>${ticket(i)}</li>`
      : `<li class="${i.fixed ? "fixed-meal" : ""}"><span class="t">${esc(i.t)}</span><div class="what">${i.tag ? `<span class="tag">${esc(i.tag)}</span>` : ""}<b>${esc(i.b)}</b>${i.p ? `<p>${esc(i.p)}</p>` : ""}</div></li>`).join("")}
-   </ol>
+   </ol>${d.backup ? backupHtml(d.backup) : ""}
   </div>
  </article>`).join("");
+
+// tips 是寫死在上面的內容（含 <b>），不是使用者輸入
+function backupHtml(bk){
+  return `<details class="backup"><summary>☔ ${esc(bk.title)}<small>${esc(bk.sub)}・點開看</small></summary>
+   <div class="bk-body">
+    <ul class="bk-tips">${bk.tips.map(x => `<li>${x}</li>`).join("")}</ul>
+    <ol class="bk">${bk.items.map(i => `<li><span class="t">${esc(i.t)}</span>
+      <div class="what">${i.tag ? `<span class="tag">${esc(i.tag)}</span>` : ""}<b>${esc(i.b)}</b>${i.p ? `<p>${esc(i.p)}</p>` : ""}</div>
+      ${i.n ? `<div class="n"><b>備註</b>${esc(i.n)}</div>` : "<div></div>"}</li>`).join("")}</ol>
+   </div></details>`;
+}
 
 document.addEventListener("click", async e => {
   const ed = e.target.closest("button[data-edit]");
